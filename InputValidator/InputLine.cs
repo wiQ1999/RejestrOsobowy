@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace InputValidator
 {
-    public class Validator
+    public class InputLine
     {
         public T Input<T>(string notification, bool allowNull = false, bool clear = true)
         {

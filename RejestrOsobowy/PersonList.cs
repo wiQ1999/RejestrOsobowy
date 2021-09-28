@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RejestrOsobowy
 {
-    public class PersonList<Person> : List<Person>
+    public class PersonList : List<Person>
     {
-
+        public IEnumerable<Person> Select(string value) => this.Where(x => x.IsSimilar(value));
     }
 }
