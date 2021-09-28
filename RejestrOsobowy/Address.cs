@@ -1,8 +1,9 @@
 ﻿using InputValidator;
+using RejestrOsobowy.Interfaces;
 
 namespace RejestrOsobowy
 {
-    public class Address
+    public class Address : ISimilarity
     {
         public string PostCode { get; set; }
         public string City { get; set; }
@@ -12,13 +13,38 @@ namespace RejestrOsobowy
 
         public Address()
         {
-            Validator validator = new Validator();
+            InputLine validator = new InputLine();
 
             PostCode = validator.Input<string>("Podaj kod pocztowy: ");
             City = validator.Input<string>("Podaj miasto: ");
             Street = validator.Input<string>("Podaj ulicę: ");
             HouseNumber = validator.Input<string>("Podaj numer domu: ");
             FlatNumber = validator.Input<int?>("Podaj numer mieszkania: ", true);
+        }
+
+        internal Address(string postCode, string city, string street, string houseNumber)
+        {
+            PostCode = postCode;
+            City = city;
+            Street = street;
+            HouseNumber = houseNumber;
+        }
+
+        internal Address(string postCode, string city, string street, string houseNumber, int flatNumber) 
+            : this(postCode, city, street, houseNumber)
+        {
+            FlatNumber = flatNumber;
+        }
+
+        public bool IsSimilar(string value)
+        {
+            value = value.ToLower();
+            return
+                PostCode.ToLower().Contains(value) ||
+                City.ToLower().Contains(value) ||
+                Street.ToLower().Contains(value) ||
+                HouseNumber.ToLower().Contains(value) ||
+                (FlatNumber != null && FlatNumber.ToString().Contains(value));
         }
 
         public override string ToString()
