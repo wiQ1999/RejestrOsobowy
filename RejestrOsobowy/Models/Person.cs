@@ -1,7 +1,7 @@
 ﻿using InputValidator;
 using RejestrOsobowy.Interfaces;
 
-namespace RejestrOsobowy
+namespace RejestrOsobowy.Models
 {
     public class Person : ISimilarity
     {
@@ -16,13 +16,13 @@ namespace RejestrOsobowy
 
         public Person()
         {
-            InputLine validator = new InputLine();
+            //InputLine validator = new();
             
-            Name = validator.Input<string>("Podaj imię: ");
-            Surname = validator.Input<string>("Podaj nazwisko: ");
-            Age = validator.Input<int>("Podaj wiek: ");
-            Sex = validator.Input<bool>("Podaj płeć: ");
-            Address = new Address();
+            //Name = validator.Input<string>("Podaj imię: ");
+            //Surname = validator.Input<string>("Podaj nazwisko: ");
+            //Age = validator.Input<int>("Podaj wiek: ");
+            //Sex = validator.Input<bool>("Podaj płeć: ");
+            //Address = new Address();
         }
 
         private Person(string name, string surname, int age, bool sex)

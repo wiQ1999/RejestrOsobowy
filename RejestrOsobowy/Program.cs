@@ -1,16 +1,21 @@
 ﻿using Enums;
+using InputValidator;
+using RejestrOsobowy.Models;
 using System;
 
 namespace RejestrOsobowy
 {
     class Program
     {
-        static PersonList list = new();
+        static readonly PersonList list = new();
 
         static void Main(string[] args)
         {
             #region TO DELETE
 
+            Text text = new Text();
+            text.Input("Podaj tekst: ");
+            return;
             TestInsertList();
 
             foreach (var item in list.Select("al"))
@@ -27,7 +32,7 @@ namespace RejestrOsobowy
 
         static void Start()
         {
-            Menu menu = new Menu();
+            Menu menu = new();
             MenuField field = menu.SelectField();
             
             new Person();

@@ -1,7 +1,7 @@
 ﻿using InputValidator;
 using RejestrOsobowy.Interfaces;
 
-namespace RejestrOsobowy
+namespace RejestrOsobowy.Models
 {
     public class Address : ISimilarity
     {
@@ -13,13 +13,13 @@ namespace RejestrOsobowy
 
         public Address()
         {
-            InputLine validator = new InputLine();
+            //InputLine validator = new InputLine();
 
-            PostCode = validator.Input<string>("Podaj kod pocztowy: ");
-            City = validator.Input<string>("Podaj miasto: ");
-            Street = validator.Input<string>("Podaj ulicę: ");
-            HouseNumber = validator.Input<string>("Podaj numer domu: ");
-            FlatNumber = validator.Input<int?>("Podaj numer mieszkania: ", true);
+            //PostCode = validator.Input<string>("Podaj kod pocztowy: ");
+            //City = validator.Input<string>("Podaj miasto: ");
+            //Street = validator.Input<string>("Podaj ulicę: ");
+            //HouseNumber = validator.Input<string>("Podaj numer domu: ");
+            //FlatNumber = validator.Input<int?>("Podaj numer mieszkania: ", true);
         }
 
         internal Address(string postCode, string city, string street, string houseNumber)
