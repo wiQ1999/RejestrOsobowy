@@ -25,13 +25,8 @@ namespace InputValidator
 
         protected abstract inbound UserInput();
 
-        public abstract outbound Convert(inbound toConvert);
+        protected virtual bool IsValid(inbound input) => input != null;
 
-        protected virtual bool IsValid(inbound input)
-        {
-            if (input == null)
-                return false;
-            return true;
-        }
+        public abstract outbound Convert(inbound toConvert);
     }
 }

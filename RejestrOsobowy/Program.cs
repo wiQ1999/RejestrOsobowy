@@ -1,6 +1,7 @@
 ﻿using Enums;
 using InputValidator;
 using RejestrOsobowy.Models;
+using Serializer;
 using System;
 
 namespace RejestrOsobowy
@@ -13,16 +14,15 @@ namespace RejestrOsobowy
         {
             #region TO DELETE
 
-            Text text = new Text();
-            text.Input("Podaj tekst: ");
-            return;
+            //Text text = new Text();
+            //text.Input("Podaj tekst: ");
+            //return;
             TestInsertList();
 
-            foreach (var item in list.Select("al"))
-            {
-                Console.WriteLine(item.ToString());
-            }
-            
+            JsonSerializator<PersonList> json = new JsonSerializator<PersonList>();
+            //json.Serialize(list);
+            PersonList test = json.Deserialize();
+
             Console.ReadKey();
 
             #endregion

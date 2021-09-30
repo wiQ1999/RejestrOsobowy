@@ -1,12 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InputValidator
 {
-    class Integer
+    public class Integer : AInput<string, int>
     {
+        protected override string UserInput()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsValid(string input)
+        {
+            return base.IsValid(input);
+        }
+
+        public override int Convert(string toConvert)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

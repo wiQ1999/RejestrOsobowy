@@ -7,13 +7,8 @@ namespace InputValidator
     {
         protected override string UserInput() => Console.ReadLine();
 
-        protected override bool IsValid(string input)
-        {
-            if (!base.IsValid(input) || string.IsNullOrEmpty(input) || input.Any(x => char.IsDigit(x)))
-                return false;
-            return true;
-        }
-
+        protected override bool IsValid(string input) => base.IsValid(input) && !string.IsNullOrWhiteSpace(input) && !input.Any(x => char.IsDigit(x));
+        
         public override string Convert(string toConvert) => toConvert;
     }
 }
