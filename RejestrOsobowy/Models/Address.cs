@@ -45,7 +45,7 @@ namespace RejestrOsobowy.Models
 
             string postCode = digitalText.Input("Podaj kod pocztowy: ");
             string city = text.Input("Podaj miasto: ");
-            string street = text.Input("Podaj ulicę: ");
+            string street = digitalText.Input("Podaj ulicę: ");
             string houseNumber = digitalText.Input("Podaj numer domu: ");
             int? flatNumber = integer.Input("Podaj numer mieszkania: ");
 
@@ -53,6 +53,23 @@ namespace RejestrOsobowy.Models
                 return new Address(postCode, city, street, houseNumber);
             else
                 return new Address(postCode, city, street, houseNumber, (int)flatNumber);
+        }
+
+        public void Modify()
+        {
+            DigitalText digitalText = new();
+            Text text = new();
+            Integer integer = new(true);
+
+            postCode = digitalText.Input($"Modyfikuj kod pocztowy ({postCode}): ");
+            city = text.Input($"Modyfikuj miasto ({city}): ");
+            street = digitalText.Input($"Modyfikuj ulicę ({street}): ");
+            houseNumber = digitalText.Input($"Modyfikuj numer domu ({houseNumber}): ");
+            if (flatNumber == null)
+                flatNumber = integer.Input("Podaj numer mieszkania: ");
+            else
+                flatNumber = integer.Input($"Modyfikuj numer mieszkania ({flatNumber}): ");
+
         }
 
         public bool IsSimilar(string value)
@@ -64,6 +81,14 @@ namespace RejestrOsobowy.Models
                 Street.ToLower().Contains(value) ||
                 HouseNumber.ToLower().Contains(value) ||
                 (FlatNumber != null && FlatNumber.ToString().Contains(value));
+        }
+
+        public string ShowAll()
+        {
+            if (flatNumber != null)
+                return $"{street} {houseNumber}/{flatNumber}, {postCode} {city}";
+            else
+                return $"{street} {houseNumber}, {postCode} {city}";
         }
 
         public override string ToString()
