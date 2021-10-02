@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace RejestrOsobowy
+namespace RejestrOsobowy.Models
 {
     public class PersonList : List<Person>
     {
