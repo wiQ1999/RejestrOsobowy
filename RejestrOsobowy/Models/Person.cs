@@ -1,48 +1,76 @@
 ﻿using InputValidator;
 using RejestrOsobowy.Interfaces;
+using System;
+using System.Text.Json.Serialization;
 
 namespace RejestrOsobowy.Models
 {
     public class Person : ISimilarity
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public int Age { get; set; }
-        /// <summary>
-        /// 0 - woman, 1 - man
-        /// </summary>
-        public bool Sex { get; set; }
-        public Address Address { get; set; }
+        private string name;
+        private string surname;
+        private int age;
+        private bool sex;
+        private Address address;
 
+        public string Name { get => name; set => name = value; }
+        public string Surname { get => surname; set => surname = value; }
+        public int Age { get => age; set => age = value; }
+        /// <summary>
+        /// 0 false - woman, 1 true - man
+        /// </summary>
+        public bool Sex { get => sex; set => sex = value; }
+        public Address Address { get => address; set => address = value; }
+
+        [JsonConstructor]
         public Person()
         {
-            //InputLine validator = new();
-            
-            //Name = validator.Input<string>("Podaj imię: ");
-            //Surname = validator.Input<string>("Podaj nazwisko: ");
-            //Age = validator.Input<int>("Podaj wiek: ");
-            //Sex = validator.Input<bool>("Podaj płeć: ");
-            //Address = new Address();
         }
 
-        private Person(string name, string surname, int age, bool sex)
+        protected Person(string name, string surname, int age, bool sex)
         {
-            Name = name;
-            Surname = surname;
-            Age = age;
-            Sex = sex;
+            this.name = name;
+            this.surname = surname;
+            this.age = age;
+            this.sex = sex;
+            address = Address.CreateAddress();
         }
 
-        internal Person(string name, string surname, int age, bool sex, string postCode, string city, string street, string houseNumber) 
-            : this(name, surname, age, sex)
-        {
-            Address = new Address(postCode, city, street, houseNumber);
-        }
+        //protected Person(string name, string surname, int age, bool sex, string postCode, string city, string street, string houseNumber) 
+        //    : this(name, surname, age, sex)
+        //{
+        //    Address = new Address(postCode, city, street, houseNumber);
+        //}
 
-        internal Person(string name, string surname, int age, bool sex, string postCode, string city, string street, string houseNumber, int flatNumber) 
-            : this(name, surname, age, sex)
+        //protected Person(string name, string surname, int age, bool sex, string postCode, string city, string street, string houseNumber, int flatNumber) 
+        //    : this(name, surname, age, sex)
+        //{
+        //    Address = new Address(postCode, city, street, houseNumber, flatNumber);
+        //}
+
+        public static Person CreatePerson()
         {
-            Address = new Address(postCode, city, street, houseNumber, flatNumber);
+            Text text = new();
+            Integer integer = new();
+            Key key = new(new ConsoleKey[] { ConsoleKey.K, ConsoleKey.M });
+
+            string name = text.Input("Podaj imię: ");
+            string surname = text.Input("Podaj nazwisko: ");
+            int age = (int)integer.Input("Podaj wiek: ");
+            bool sex;
+            switch (key.Input("Podaj płeć: "))
+            {
+                case ConsoleKey.K:
+                    sex = false;
+                    break;
+                case ConsoleKey.M:
+                    sex = true;
+                    break;
+                default:
+                    throw new Exception("Niepoprawny znak!");
+            }
+
+            return new Person(name, surname, age, sex);
         }
 
         public bool IsSimilar(string value)

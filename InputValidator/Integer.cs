@@ -2,21 +2,45 @@
 
 namespace InputValidator
 {
-    public class Integer : AInput<string, int>
+    public class Integer : AInput<string, int?>
     {
-        protected override string UserInput()
+        private bool allowEmpty;
+
+        public bool AllowEmpty { get => allowEmpty; set => allowEmpty = value; }
+
+        public Integer(bool allowEmpty = false, bool clearScreen = true) : base (clearScreen)
         {
-            throw new NotImplementedException();
+            this.allowEmpty = allowEmpty;
         }
+
+        protected override string UserInput() => Console.ReadLine();
 
         protected override bool IsValid(string input)
         {
-            return base.IsValid(input);
+            if (!base.IsValid(input))
+                return false;
+
+            if (!allowEmpty && string.IsNullOrWhiteSpace(input))
+                return false;
+
+            return Convert(input, out int? _);
         }
 
-        public override int Convert(string toConvert)
+        public override bool Convert(string toConvert, out int? converted)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (allowEmpty && string.IsNullOrWhiteSpace(toConvert))
+                    converted = null;
+                else
+                    converted = int.Parse(toConvert);
+                return true;
+            }
+            catch (Exception)
+            {
+                converted = 0;
+                return false;
+            }
         }
     }
 }

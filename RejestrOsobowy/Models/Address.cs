@@ -1,28 +1,29 @@
 ﻿using InputValidator;
 using RejestrOsobowy.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace RejestrOsobowy.Models
 {
     public class Address : ISimilarity
     {
-        public string PostCode { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string HouseNumber { get; set; }
-        public int? FlatNumber { get; set; }
+        private string postCode;
+        private string city;
+        private string street;
+        private string houseNumber;
+        private int? flatNumber;
 
+        public string PostCode { get => postCode; set => postCode = value; }
+        public string City { get => city; set => city = value; }
+        public string Street { get => street; set => street = value; }
+        public string HouseNumber { get => houseNumber; set => houseNumber = value; }
+        public int? FlatNumber { get => flatNumber; set => flatNumber = value; }
+
+        [JsonConstructor]
         public Address()
         {
-            //InputLine validator = new InputLine();
-
-            //PostCode = validator.Input<string>("Podaj kod pocztowy: ");
-            //City = validator.Input<string>("Podaj miasto: ");
-            //Street = validator.Input<string>("Podaj ulicę: ");
-            //HouseNumber = validator.Input<string>("Podaj numer domu: ");
-            //FlatNumber = validator.Input<int?>("Podaj numer mieszkania: ", true);
         }
 
-        internal Address(string postCode, string city, string street, string houseNumber)
+        protected Address(string postCode, string city, string street, string houseNumber)
         {
             PostCode = postCode;
             City = city;
@@ -30,10 +31,28 @@ namespace RejestrOsobowy.Models
             HouseNumber = houseNumber;
         }
 
-        internal Address(string postCode, string city, string street, string houseNumber, int flatNumber) 
+        protected Address(string postCode, string city, string street, string houseNumber, int flatNumber) 
             : this(postCode, city, street, houseNumber)
         {
             FlatNumber = flatNumber;
+        }
+
+        public static Address CreateAddress()
+        {
+            DigitalText digitalText = new();
+            Text text = new();
+            Integer integer = new(true);
+
+            string postCode = digitalText.Input("Podaj kod pocztowy: ");
+            string city = text.Input("Podaj miasto: ");
+            string street = text.Input("Podaj ulicę: ");
+            string houseNumber = digitalText.Input("Podaj numer domu: ");
+            int? flatNumber = integer.Input("Podaj numer mieszkania: ");
+
+            if (flatNumber == null)
+                return new Address(postCode, city, street, houseNumber);
+            else
+                return new Address(postCode, city, street, houseNumber, (int)flatNumber);
         }
 
         public bool IsSimilar(string value)

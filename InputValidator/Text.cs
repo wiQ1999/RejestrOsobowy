@@ -9,6 +9,10 @@ namespace InputValidator
 
         protected override bool IsValid(string input) => base.IsValid(input) && !string.IsNullOrWhiteSpace(input) && !input.Any(x => char.IsDigit(x));
         
-        public override string Convert(string toConvert) => toConvert;
+        public override bool Convert(string toConvert, out string converted)
+        {
+            converted = toConvert;
+            return true;
+        }
     }
 }

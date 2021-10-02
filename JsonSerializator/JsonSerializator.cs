@@ -21,8 +21,8 @@ namespace Serializer
                 return (T)(object)null;
             string data = File.ReadAllText(PATH, System.Text.Encoding.UTF8);
             var result = JsonSerializer.Deserialize<T>(data);
-            //if (result == null)
-            //    throw new Exception("Brak danych w pliku zapisu.");
+            if (result == null)
+                return (T)(object)null;
             return result;
         }
     }

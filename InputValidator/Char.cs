@@ -3,18 +3,11 @@ using System.Collections.Generic;
 
 namespace InputValidator
 {
-    class Char : AInput<ConsoleKey, char>
+    class Char : AInput<ConsoleKey, char>//TODO
     {
         public List<char> AvailableChars { get; set; }
 
         protected override ConsoleKey UserInput() => Console.ReadKey().Key;
-
-        public override char Convert(ConsoleKey toConvert)
-        {
-
-
-            return ' ';
-        }
 
         protected override bool IsValid(ConsoleKey input)
         {
@@ -25,5 +18,13 @@ namespace InputValidator
 
             return true;
         }
+
+        public override bool Convert(ConsoleKey toConvert, out char converted)
+        {
+            converted = ' ';
+            return true;
+        }
+
+
     }
 }
