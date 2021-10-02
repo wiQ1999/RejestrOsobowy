@@ -58,7 +58,7 @@ namespace RejestrOsobowy.Models
             string surname = text.Input("Podaj nazwisko: ");
             int age = (int)integer.Input("Podaj wiek: ");
             bool sex;
-            switch (key.Input("Podaj płeć: "))
+            switch (key.Input("Podaj płeć (k/m): "))
             {
                 case ConsoleKey.K:
                     sex = false;
@@ -73,6 +73,29 @@ namespace RejestrOsobowy.Models
             return new Person(name, surname, age, sex);
         }
 
+        public void Modify()
+        {
+            Text text = new();
+            Integer integer = new();
+            Key key = new(new ConsoleKey[] { ConsoleKey.K, ConsoleKey.M });
+
+            name = text.Input($"Modyfikuj imię ({name}): ");
+            surname = text.Input($"Modyfikuj nazwisko ({surname}): ");
+            age = (int)integer.Input($"Modyfikuj wiek ({age}): ");
+            switch (key.Input("Modyfikuj płeć (k/m): "))
+            {
+                case ConsoleKey.K:
+                    sex = false;
+                    break;
+                case ConsoleKey.M:
+                    sex = true;
+                    break;
+                default:
+                    throw new Exception("Niepoprawny znak!");
+            }
+            address.Modify();
+        }
+
         public bool IsSimilar(string value)
         {
             value = value.ToLower();
@@ -81,6 +104,21 @@ namespace RejestrOsobowy.Models
                 Surname.ToLower().Contains(value) ||
                 Age.ToString().Contains(value) ||
                 Address.IsSimilar(value);
+        }
+
+        public string ShowAll()
+        {
+            string sexName;
+            switch (sex) 
+            {
+                case false:
+                    sexName = "kobieta";
+                    break;
+                default:
+                    sexName = "mężczyzna";
+                    break;
+            }
+            return $"{name} {surname}, wiek {age}, płeć {sexName}, {address.ShowAll()}";
         }
 
         public override string ToString()

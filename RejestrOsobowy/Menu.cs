@@ -80,8 +80,9 @@ namespace RejestrOsobowy
 
         private void ModifyPerson()
         {
-            Console.Clear();
-            Comunicate("Brak czasu aby zaprogramować :(");
+            Person person = SelectPerson();
+            if (person != null)
+                person.Modify();
         }
 
         private void DeletePerson()
@@ -106,10 +107,16 @@ namespace RejestrOsobowy
                 Comunicate("Nie znaleziono żadnego dopasowania.");
             else
             {
-                int? inpout = new Integer(true).Input($"{GenerateListString(selectedList)}\nWybierz osobę: ");
+                int? input = new Integer(true).Input($"{GenerateListString(selectedList)}\nWybierz osobę: ");
 
-                if (inpout != null)
-                    result = selectedList.ElementAt(((int)inpout) - 1);
+                if (input != null)
+                {
+                    input--;
+                    if (input >= 0 && input <= list.Count() - 1)
+                        result = selectedList.ElementAt(((int)input));
+                    else
+                        Comunicate("Nie ma takiego indeksu.");
+                }
             }
 
             return result;
@@ -132,7 +139,7 @@ namespace RejestrOsobowy
             for (int i = 0; i < list.Count(); i++)
             {
                 Person person = list.ElementAt(i);
-                info += $"{i + 1}. {person}\n";
+                info += $"{i + 1}. {person.ShowAll()}\n";
             }
             return info;
         }
